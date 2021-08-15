@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+    <!-- Print log in console for local testing -->
+    <if condition='isDefined("run_env")'>
+        <then>
+            <appender name="rollingFile"
+                      class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>../log/web-service-db/web-service-db.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <fileNamePattern>../log/web-service-db/web-service-db.log.%d{yyyy-MM-dd}
+                    </fileNamePattern>
+                    <maxHistory>14</maxHistory>
+                </rollingPolicy>
+                <encoder>
+                    <pattern>%d{HH:mm:ss.SSS} %-5level [%.15thread][%X{_traceId}] %logger{36} - %.-4096msg%n</pattern>
+                </encoder>
+            </appender>
+
+            <root level="INFO">
+                <appender-ref ref="rollingFile"/>
+            </root>
+        </then>
+        <else>
+            <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder>
+                    <pattern>%d{HH:mm:ss.SSS} %-5level [%.15thread][%X{_traceId}] %logger{36} - %.-4096msg%n</pattern>
+                </encoder>
+            </appender>
+
+            <root level="INFO">
+                <appender-ref ref="console"/>
+            </root>
+        </else>
+    </if>
+</configuration>
