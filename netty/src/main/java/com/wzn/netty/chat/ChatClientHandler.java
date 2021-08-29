@@ -21,6 +21,6 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String msg) throws Exception {
         //将服务器发送的数据打印出来
-        System.out.println(msg);
+        System.out.println(msg.trim());
     }
 }
