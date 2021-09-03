@@ -15,6 +15,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class OrderOperation  extends Operation {
 
+
     private int tableId;
     private String dish;
 
