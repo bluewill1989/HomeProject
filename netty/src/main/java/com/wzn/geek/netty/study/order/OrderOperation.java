@@ -4,6 +4,7 @@ import com.wzn.geek.netty.study.common.Operation;
 import com.wzn.geek.netty.study.common.OperationResult;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author by will
@@ -12,6 +13,7 @@ import lombok.Data;
  * @Date 2021/8/29 22:38
  */
 @Data
+@Slf4j
 @AllArgsConstructor
 public class OrderOperation  extends Operation {
 
@@ -20,11 +22,12 @@ public class OrderOperation  extends Operation {
     private String dish;
 
     @Override
-    public OperationResult execute() {
+    public OrderOperationResult execute() {
         System.out.println("order's executing startup with orderRequest: " + toString());
         //execute order logic
         System.out.println("order's executing complete");
-        OrderOperationResult orderResponse = new OrderOperationResult(tableId, dish, true);
-        return null;
+        OrderOperationResult orderResponse = new OrderOperationResult(5555, "好菜", true);
+        System.out.println("准备返回OrderOperationResult");
+        return orderResponse;
     }
 }

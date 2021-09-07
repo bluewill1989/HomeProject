@@ -1,9 +1,6 @@
 package com.wzn.geek.netty.study.server.handler;
 
-import com.wzn.geek.netty.study.common.MessageHeader;
-import com.wzn.geek.netty.study.common.Operation;
-import com.wzn.geek.netty.study.common.RequestMessage;
-import com.wzn.geek.netty.study.common.ResponseMessage;
+import com.wzn.geek.netty.study.common.*;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +17,12 @@ public class OrderServiceProcessHandler extends SimpleChannelInboundHandler<Requ
     protected void channelRead0(ChannelHandlerContext ctx, RequestMessage requestMessage) throws Exception {
         log.info("进来了:{}",requestMessage);
         Operation operation = requestMessage.getMessageBody();
+        //这里是真正的业务执行execute方法!!
+        OperationResult operationResult = operation.execute();
         MessageHeader messageHeader = requestMessage.getMessageHeader();
 
         ResponseMessage responseMessage = new ResponseMessage();
-        responseMessage.setMessageBody(operation);
+        responseMessage.setMessageBody(operationResult);
         responseMessage.setMessageHeader(messageHeader);
 
         ctx.writeAndFlush(responseMessage);

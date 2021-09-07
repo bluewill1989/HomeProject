@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author by will
  * @Classname OperationResultHandler
- * @Description TODO
+ * @Description 瞎想不算数
  * @Date 2021/9/3 22:31
  */
 @Slf4j
@@ -28,8 +28,8 @@ public class OperationResultHandler  extends SimpleChannelInboundHandler<Respons
         Class clazz = responseMessage.getMessageBodyDecodeClass(messageHeader.getOpCode());
         if (clazz.equals(OrderOperation.class)){
             log.info("收到的operation:{}",clazz);
-            Operation orderOperation = (OrderOperation)responseMessage.getMessageBody();
-            orderOperation.execute();
+//            Operation orderOperation = (OrderOperation)responseMessage.getMessageBody();
+//            orderOperation.execute();
         }
     }
 }
