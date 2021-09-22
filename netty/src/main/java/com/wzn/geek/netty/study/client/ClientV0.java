@@ -4,6 +4,8 @@ import com.wzn.geek.netty.study.client.codec.OrderFrameDecoder;
 import com.wzn.geek.netty.study.client.codec.OrderFrameEncoder;
 import com.wzn.geek.netty.study.client.codec.OrderProtocolDecoder;
 import com.wzn.geek.netty.study.client.codec.OrderProtocolEncoder;
+import com.wzn.geek.netty.study.client.handler.ClientIdleCheckHandler;
+import com.wzn.geek.netty.study.client.handler.KeepaliveHandler;
 import com.wzn.geek.netty.study.common.Operation;
 import com.wzn.geek.netty.study.common.OperationResult;
 import com.wzn.geek.netty.study.common.RequestMessage;
@@ -33,19 +35,30 @@ public class ClientV0 {
         bootstrap.option(NioChannelOption.CONNECT_TIMEOUT_MILLIS, 10 * 1000);
         NioEventLoopGroup loopGroup = new NioEventLoopGroup();
 
-       try {
+        KeepaliveHandler keepaliveHandler = new KeepaliveHandler();
+
+
+        try {
            bootstrap.group(loopGroup)
                    .handler(new ChannelInitializer<NioSocketChannel>() {
                        @Override
                        protected void initChannel(NioSocketChannel ch) throws Exception {
                            ChannelPipeline pipeline = ch.pipeline();
+
+                           pipeline.addLast(new ClientIdleCheckHandler());
+
+
                            pipeline.addLast(new OrderFrameDecoder());
                            pipeline.addLast(new OrderFrameEncoder());
+
 
                            pipeline.addLast(new OrderProtocolEncoder());
                            pipeline.addLast(new OrderProtocolDecoder());
 
                            pipeline.addLast(new LoggingHandler(LogLevel.INFO));
+
+                           pipeline.addLast(keepaliveHandler);
+
                        }
                    });
            ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 8888);

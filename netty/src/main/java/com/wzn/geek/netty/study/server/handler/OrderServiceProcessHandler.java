@@ -25,6 +25,12 @@ public class OrderServiceProcessHandler extends SimpleChannelInboundHandler<Requ
         responseMessage.setMessageBody(operationResult);
         responseMessage.setMessageHeader(messageHeader);
 
-        ctx.writeAndFlush(responseMessage);
+       // ctx.writeAndFlush(responseMessage); //改成下面的方式,避免OOM
+
+        if (ctx.channel().isActive() && ctx.channel().isWritable()) {
+            ctx.writeAndFlush(responseMessage);
+        } else {
+            log.error("not writable now, message dropped");
+        }
     }
 }

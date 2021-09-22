@@ -2,6 +2,8 @@ package com.wzn.geek.netty.study.common;
 
 
 
+import com.wzn.geek.netty.study.common.keepalive.KeepaliveOperation;
+import com.wzn.geek.netty.study.common.keepalive.KeepaliveOperationResult;
 import com.wzn.geek.netty.study.order.OrderOperation;
 import com.wzn.geek.netty.study.order.OrderOperationResult;
 
@@ -10,7 +12,7 @@ import java.util.function.Predicate;
 public enum OperationType {
 
 //    AUTH(1, AuthOperation.class, AuthOperationResult.class),
-//    KEEPALIVE(2, KeepaliveOperation.class, KeepaliveOperationResult.class),
+    KEEPALIVE(2, KeepaliveOperation.class, KeepaliveOperationResult.class),
     ORDER(3, OrderOperation.class, OrderOperationResult.class);
 
     private int opCode;
